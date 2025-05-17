@@ -33,7 +33,7 @@ NordVPN GUI for Linux
 
 - [Energy](https://github.com/energye/energy)
 - Go
-- OpenStreetMap (Leaflet)
+- OpenStreetMap [Leaflet](https://leafletjs.com/)
 
 ## Building
 
