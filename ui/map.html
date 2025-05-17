@@ -1,0 +1,42 @@
+<div id="mapContainer">
+
+</div>
+<style>
+  #mapContainer {
+    position: absolute;
+    width: 100vw;
+    height: 100vh;
+  }
+</style>
+<script>
+  function initMap() {
+    console.log("[Map] Initializing...");
+
+      const map = L.map('mapContainer', {
+          center: [20, 0],
+          zoom: 2,
+          worldCopyJump: true,
+          maxZoom: 5,
+          minZoom: 2,
+          maxBoundsViscosity: 1.0,
+          maxBounds: [[-90, -180],[90, 180]],
+          zoomControl: false
+      });
+
+      L.control.zoom({ position: 'topright' }).addTo(map);
+
+      L.tileLayer('https://{s}.tile.openstreetmap.org/{z}/{x}/{y}.png', {
+          attribution: '&copy; OpenStreetMap contributors',
+          noWrap: false
+      }).addTo(map);
+
+      window.insertMarker = function(lat, lon, country, city, callback) {
+          const marker = L.marker([lat, lon]).addTo(map);
+          marker.on("click", () => {
+              callback(country, city);
+          });
+      }
+
+    console.log("[Map] Done");
+  }
+</script>

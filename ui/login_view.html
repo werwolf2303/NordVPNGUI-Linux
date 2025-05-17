@@ -1,0 +1,110 @@
+<div>
+    <div id="login_form_container">
+        <div id="login_form">
+            <div style="height: fit-content; margin-top: 55px;">
+                <img style="height: 160px; margin-bottom: -70px; margin-left: -50px" alt="logo" src="images/companyLogo.png">
+                <h1 style="font-size: 43px; font-family: Tahoma,sans-serif">Cybersecurity built for every day</h1>
+                <div style="display: flex; flex-direction: column; width: 200px; gap: 10px;">
+                    <button onclick="login()">Log in</button>
+                    <button id="sign_up_button" onclick="signup()">Create Nord Account</button>
+                </div>
+            </div>
+            <img id="login_product_logo" style="height: fit-content" alt="logo" src="images/productLogo.svg">
+        </div>
+    </div>
+    <style>
+        #login_form_container {
+            width: 100vw;
+            height: 100vh;
+            position: absolute;
+            background-color: whitesmoke;
+            color: black;
+            display: flex;
+            justify-content: center;
+            align-content: center;
+            flex-wrap: wrap;
+        }
+
+        #login_product_logo {
+            max-width: 500px;
+        }
+
+        #login_form {
+            display: flex;
+            flex-direction: row;
+            gap: 15px;
+            max-height: min-content;
+            width: calc(100vw - 120px);
+            min-width: 820px;
+            max-width: 820px;
+        }
+
+        #login_form button:not(#sign_up_button) {
+            background-color: rgb(68, 134, 255);
+            color: white;
+            border: none;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 17px;
+        }
+
+        #login_form button:not(#sign_up_button):hover {
+            background-color: rgb(32, 93, 225);
+            cursor: pointer;
+        }
+
+        #sign_up_button {
+            position: relative;
+            overflow: hidden;
+            background: transparent;
+            border: 1px solid gray;
+            border-radius: 5px;
+            padding: 5px 10px;
+            font-size: 17px;
+            color: black;
+            z-index: 1;
+            transition: color 0.4s linear;
+        }
+
+        #sign_up_button::before {
+            content: "";
+            position: absolute;
+            top: 0; left: 0;
+            width: 100%; height: 100%;
+            background: linear-gradient(190deg, rgba(68, 134, 255, 1) 42%, rgba(224, 224, 224, 1) 100%);
+            opacity: 0;
+            transition: opacity 0.2s linear;
+            z-index: -1;
+            border-radius: 5px;
+        }
+
+        #sign_up_button:hover::before {
+            opacity: 1;
+        }
+
+        #sign_up_button:hover {
+            color: white;
+            cursor: pointer;
+        }
+    </style>
+    <script>
+        function login() {
+            emit(IPCS.GET_LOGIN_URL, null, (data) => {
+                window.open(JSON.parse(data)["Login"]["url"], "NordVPN Login", "popup=true");
+            }, (error) => {
+                showError("Error: " + error);
+            });
+        }
+
+        function signup() {
+            emit(IPCS.GET_REGISTER_URL, null, (data) => {
+                window.open(JSON.parse(data)["Login"]["url"], "NordVPN Login", "popup=true");
+            }, (error) => {
+                showError("Error: " + error);
+            });
+        }
+
+        function initLoginView() {
+        }
+    </script>
+</div>

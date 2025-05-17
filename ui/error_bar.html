@@ -1,0 +1,47 @@
+<div>
+    <div id="error_message_bar">
+
+    </div>
+    <style>
+        #error_message_bar {
+            color: white;
+            width: 100vw;
+            height: 30px;
+            position: absolute;
+            top: 0;
+            background-color: rgba(255, 0, 0, 0.61);
+            z-index: 99999;
+            text-align: center;
+            padding-top: 2px;
+            font-size: 20px;
+        }
+    </style>
+    <script>
+        const ERROR_DURATION = {
+            SHORT: "3000",
+            MEDIUM: "5000",
+            LONG: "6000",
+        };
+
+        let ERROR_BAR_VISIBLE = false;
+
+        /**
+         * @param message {string}
+         * @param duration {ERROR_DURATION}
+         */
+        showError = function (message, duration = ERROR_DURATION.SHORT) {
+            if(ERROR_BAR_VISIBLE) return;
+            document.getElementById("error_message_bar").innerText = message;
+            document.getElementById("error_message_bar").style.visibility = "visible";
+            ERROR_BAR_VISIBLE = true;
+            setTimeout(() => {
+                document.getElementById("error_message_bar").style.visibility = "hidden";
+                ERROR_BAR_VISIBLE = false;
+            }, parseInt(duration) + 100);
+        }
+
+        function initErrorBar() {
+            document.getElementById("error_message_bar").style.visibility = "hidden";
+        }
+    </script>
+</div>

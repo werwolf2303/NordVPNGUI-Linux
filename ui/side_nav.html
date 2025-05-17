@@ -1,0 +1,1060 @@
+<div id="navLeftContainer">
+    <div id="navLeftContent">
+        <div id="navLeftConnectText">
+            <img src="icons/lock.svg" class="nav-left-lock nav-left-not-connected" alt="lock">
+            <a>NOT CONNECTED</a>
+        </div>
+        <div id="navLeftConnectStateText">
+            <div style="display: flex; flex-direction: column; height: 33px;">
+                <div style="display: flex; flex-direction: row; gap: 5px">
+                    <div id="server-spinner" style="display: none; margin-top: 5px;" class="spinner"></div>
+                    <a id="server-name">Connnect to VPN</a>
+                </div>
+                <a id="server-ip" style="font-size: 15px"></a>
+            </div>
+            <img alt="country" class="connected-country">
+        </div>
+        <div id="navLeftConnectControls">
+            <button onclick="quickConnect()" id="connect-button">Quick Connect</button>
+            <img onclick="disconnect()" id="disconnect-button" style="opacity: 0.1" src="icons/power.svg" alt="disconnect">
+            <img onclick="reconnect()" id="reconnect-button" style="rotate: -46deg; opacity: 0.1" src="icons/refresh.svg" alt="reconnect">
+        </div>
+        <div id="navLeftSplitter">
+        </div>
+        <div id="navLeftCountries" style="margin-top: 25px; height: 40px; margin-left: -15px">
+            <div>
+                <div id="navLeftCountriesContainer">
+                </div>
+                <div id="navLeftTabs">
+                    <div id="navLeftContainerTabs">
+                        <button onclick="showCountries()" class="nav-left-tab-active" id="countriesTabButton">Countries</button>
+                        <button onclick="showSpecialtyServers()" class="nav-left-tab-non-active" id="specialtyServersTabButton">Specialty Servers</button>
+                    </div>
+                    <hr style="width: 194px; left: 17px; position: absolute; margin-top: -1px; border-color: grey; opacity: 0.1">
+                </div>
+            </div>
+            <div onclick="openCloseCountries()" id="navLeftCountriesArrowContainer">
+                <div style="width: 5px; height: 5px;" class="arrow"></div>
+            </div>
+        </div>
+        <div id="navLeftTabsContent">
+            <div style="overflow-y: scroll; overflow-x: hidden" id="countriesTab">
+            </div>
+            <div id="specialtyServersTab">
+                <div>
+                    <img src="icons/double_vpn.svg" alt="ico">
+                    <a>Double VPN</a>
+                    <div onclick="expandSpecialty(document.getElementById('specialty-double-vpn'), this)" class="specialty-arrow">
+                        <div style="width: 5px; height: 5px;" class="arrow"></div>
+                    </div>
+                </div>
+                <div id="specialty-double-vpn" class="specialtyContent">
+                    <div>
+                        <label for="double-vpn">Country</label>
+                        <div class="rounded-select">
+                            <select id="double-vpn">
+                                <option value="">Fastest server</option>
+                                <hr>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="connectSpecialty('double_vpn', document.getElementById('double-vpn'))">Connect</button>
+                </div>
+                <div>
+                    <img src="icons/incognito.svg" alt="ico">
+                    <a>Obfuscated servers</a>
+                    <div onclick="expandSpecialty(document.getElementById('specialty-obfuscated'), this)" class="specialty-arrow">
+                        <div style="width: 5px; height: 5px;" class="arrow"></div>
+                    </div>
+                </div>
+                <div id="specialty-obfuscated" class="specialtyContent">
+                    <div>
+                        <label for="obfuscated">Country</label>
+                        <div class="rounded-select">
+                            <select id="obfuscated">
+                                <option value="">Fastest server</option>
+                                <hr>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="connectSpecialty('obfuscated', document.getElementById('obfuscated'))">Connect</button>
+                </div>
+                <div>
+                    <img src="icons/onion.svg" alt="ico">
+                    <a>Onion Over VPN</a>
+                    <div onclick="expandSpecialty(document.getElementById('specialty-onion'), this)" class="specialty-arrow">
+                        <div style="width: 5px; height: 5px;" class="arrow"></div>
+                    </div>
+                </div>
+                <div id="specialty-onion" class="specialtyContent">
+                    <div>
+                        <label for="onionovervpn">Country</label>
+                        <div class="rounded-select">
+                            <select id="onionovervpn">
+                                <option value="">Fastest server</option>
+                                <hr>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="connectSpecialty('onion_over_vpn', document.getElementById('onionovervpn'))">Connect</button>
+                </div>
+                <div>
+                    <img src="icons/p2p.svg" alt="ico">
+                    <a>P2P</a>
+                    <div onclick="expandSpecialty(document.getElementById('specialty-p2p'), this)" class="specialty-arrow">
+                        <div style="width: 5px; height: 5px;" class="arrow"></div>
+                    </div>
+                </div>
+                <div id="specialty-p2p" class="specialtyContent">
+                    <div>
+                        <label for="p2p">Country</label>
+                        <div class="rounded-select">
+                            <select id="p2p">
+                                <option value="">Fastest server</option>
+                                <hr>
+                            </select>
+                        </div>
+                    </div>
+                    <button onclick="connectSpecialty('p2p', document.getElementById('p2p'))">Connect</button>
+                </div>
+            </div>
+        </div>
+    </div>
+</div>
+<style>
+    #navLeftContainer {
+        background-color: whitesmoke;
+        width: 340px;
+        height: 200px;
+        margin-left: 10px;
+        margin-top: 10px;
+        position: absolute;
+        z-index: 9999;
+        border-radius: 10px;
+        box-shadow: 0 6px 2px 4px rgba(162, 182, 194, 0.3);
+        transition: .2s ease-in-out;
+    }
+
+    #navLeftContent {
+        padding-top: 10px;
+        padding-left: 15px;
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        color: black;
+        font-family: Tahoma, sans-serif;
+        height: inherit;
+        overflow: hidden;
+    }
+
+    #navLeftContent > div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+    }
+
+    #navLeftConnectText {
+        color: #ff0000;
+        gap: 10px;
+    }
+
+    .nav-left-lock {
+        width: 10px;
+    }
+
+    .nav-left-connected {
+        filter: invert(24%) sepia(97%) saturate(1823%) hue-rotate(104deg) brightness(94%) contrast(104%);
+    }
+
+    .nav-left-not-connected {
+        filter: invert(23%) sepia(71%) saturate(7463%) hue-rotate(356deg) brightness(101%) contrast(126%);
+    }
+
+    #navLeftConnectStateText {
+        font-size: 24px;
+    }
+
+    #disconnect-button:hover {
+        cursor: pointer;
+    }
+
+    #reconnect-button:hover {
+        cursor: pointer;
+    }
+
+    .connected-country {
+        height: 40px;
+        width: 40px;
+        right: 25px;
+        border: none;
+        position: absolute;
+    }
+
+    #navLeftConnectControls {
+        height: 40px;
+        gap: 20px;
+        margin-top: 25px;
+        margin-right: 25px;
+    }
+
+    #navLeftConnectControls button {
+        flex-grow: 1;
+        background-color: rgb(68, 134, 255);
+        color: white;
+        border-radius: 5px;
+        border: none;
+        height: 40px;
+    }
+
+    #navLeftConnectControls button:hover {
+        cursor: pointer;
+        background-color: rgba(68, 134, 255, 0.82);
+    }
+
+    #navLeftConnectControls img {
+        height: 25px;
+        margin-top: 7px;
+    }
+
+    #navLeftSplitter {
+        position: absolute;
+        width: 340px;
+        height: 2px;
+        opacity: 0.1;
+        background-color: gray;
+        margin-left: -15px;
+        margin-top: 130px;
+    }
+
+    .arrow {
+        border: solid black;
+        border-width: 0 3px 3px 0;
+        display: inline-block;
+        padding: 3px;
+    }
+
+    #navLeftCountriesContainer {
+        width: 270px;
+        display: flex;
+        flex-direction: row;
+        gap: 14px;
+        margin-left: 15px;
+    }
+
+    #navLeftCountries #navLeftCountriesArrowContainer {
+        position: absolute;
+        right: 30px;
+        rotate: 45deg;
+        margin-top: 2px;
+    }
+
+    #navLeftCountries #navLeftCountriesArrowContainer:hover {
+        cursor: pointer;
+    }
+
+    #navLeftCountriesContainer img {
+        border-radius: 100%;
+    }
+
+    #navLeftCountriesContainer img:hover {
+        cursor: pointer;
+        width: 27px;
+        height: 27px;
+        border: 3px solid rgb(68, 134, 255);
+    }
+
+    #navLeftTabs {
+        margin-bottom: 20px;
+        margin-top: 2px;
+        margin-left: 18px;
+    }
+
+    #navLeftContainerTabs {
+        gap: 13px;
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+    }
+
+    #navLeftTabs button {
+        background-color: transparent;
+    }
+
+    #navLeftTabs button:hover {
+        cursor: pointer;
+    }
+
+    #navLeftTabsContent {
+        height: inherit;
+        scrollbar-color: rgb(68, 134, 255) whitesmoke;
+    }
+
+    .nav-left-tab-active {
+        border: none;
+        color: rgb(68, 134, 255);
+        border-bottom: 2px solid rgb(68, 134, 255);
+    }
+
+    .nav-left-tab-non-active {
+        border: none;
+    }
+
+    #countriesTab img {
+        width: 40px;
+        height: 40px;
+        border-radius: 100%;
+    }
+
+    #countriesTab > div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 10px;
+    }
+
+    #countriesTab {
+        display: flex;
+        flex-direction: column;
+        gap: 20px;
+        height: inherit;
+        margin-top: 10px;
+        max-height: calc(100vh - 225px);
+        width: 320px;
+    }
+
+    #countriesTab > div:hover {
+        cursor: pointer;
+    }
+
+    #countriesTab > div:not(.country-cities):hover img {
+        width: 37px;
+        height: 37px;
+        border: 3px solid rgb(68, 134, 255);
+    }
+
+    .country-cities > div:hover img {
+        border: 3px solid rgb(68, 134, 255);
+    }
+
+    #countriesTab > div > div {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+    }
+
+    #specialtyServersTab {
+        display: flex;
+        flex-direction: column;
+        flex-wrap: nowrap;
+        gap: 20px;
+    }
+
+    #specialtyServersTab > div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        align-content: center;
+        gap: 5px;
+        width: 228px;
+    }
+
+    #specialtyServersTab > div > img {
+        width: 40px;
+        height: 40px;
+    }
+
+    #specialtyServersTab > div > a {
+        margin-top: 10px;
+    }
+
+    #specialtyServersTab > div:hover {
+        cursor: pointer;
+    }
+
+    .specialty-arrow {
+        margin-top: 15px;
+        margin-right: 2px;
+        display: flex;
+        justify-content: flex-end;
+        flex-grow: 1;
+    }
+
+    .specialty-arrow .arrow {
+        rotate: -134deg;
+    }
+
+    .specialtyContent {
+        flex-direction: column !important;
+        width: 228px;
+        margin-bottom: 10px;
+        margin-top: -5px;
+    }
+
+    .specialtyContent > div {
+        display: flex;
+        flex-direction: row;
+        flex-wrap: nowrap;
+        gap: 5px;
+    }
+
+    .specialtyContent > div > label {
+        margin-top: 2px;
+    }
+
+    .specialtyContent > div > div {
+        flex-grow: 1;
+        margin-bottom: 2px;
+    }
+
+    .specialtyContent > button {
+        height: 30px;
+        border: none;
+        background-color: rgb(68, 134, 255);
+        color: white;
+        border-radius: 5px;
+    }
+
+    .specialtyContent > button:hover {
+        cursor: pointer;
+        background-color: rgba(68, 134, 255, 0.82);
+    }
+
+    .specialtyContent select {
+        background-color: transparent;
+        border: 0;
+        outline: none;
+        margin-bottom: 2px;
+        width: 100%;
+    }
+
+    .rounded-select {
+        border-radius: 6px;
+        border: 2px solid black;
+        overflow: hidden;
+        display: inline-block;
+    }
+
+    .spinner {
+        width: 20px;
+        height: 20px;
+        border-radius: 50%;
+        border: 3px solid transparent;
+        border-top-color: rgb(63, 121, 228);
+        animation: spinner-animation 1s linear infinite;
+    }
+
+    @keyframes spinner-animation {
+        0% {
+            rotate: 0deg;
+        }
+        100% {
+            rotate: 360deg;
+        }
+    }
+</style>
+<script>
+    let allServers = [];
+    let countriesExpanded = false;
+    let usersCountry;
+    let blockControls = true;
+    let connected = false;
+
+    document.getElementById("navLeftTabs").style.visibility = "hidden";
+    document.getElementById("specialtyServersTab").style.display = "none";
+    document.getElementById("navLeftTabsContent").style.display = "none";
+    document.getElementsByClassName("connected-country")[0].style.display = "none";
+
+    for(const element of document.getElementsByClassName("specialtyContent")) {
+        element.style.position = "absolute";
+        element.style.display = "none";
+    }
+
+    for(const element of document.getElementsByClassName("specialty-arrow")) {
+        element.children.item(0).style.rotate = "45deg";
+        element.children.item(0).style.marginTop = "-2px";
+    }
+
+    function expandSpecialty(toExpand, arrowContainer) {
+        for(const element of document.getElementsByClassName("specialtyContent")) {
+            element.style.position = "absolute";
+            element.style.display = "none";
+        }
+
+        let shrink = false;
+
+        if(arrowContainer.children[0].style.rotate === "-134deg") {
+            shrink = true;
+        }
+
+        for(const element of document.getElementsByClassName("specialty-arrow")) {
+            element.children.item(0).style.rotate = "45deg";
+            element.children.item(0).style.marginTop = "-2px";
+        }
+
+        if(!shrink) {
+            arrowContainer.children[0].style.rotate = "-134deg";
+            arrowContainer.children[0].style.marginTop = "0";
+
+            toExpand.style.position = "static";
+            toExpand.style.display = "flex";
+        }
+    }
+
+    function openCloseCountries() {
+        if(!countriesExpanded) {
+
+            document.getElementById("navLeftCountriesArrowContainer").children[0].style.rotate = "180deg";
+            document.getElementById("navLeftCountriesArrowContainer").children[0].style.marginTop = "7px";
+            document.getElementById("navLeftTabs").style.visibility = "visible";
+            document.getElementById("navLeftCountriesContainer").style.visibility = "hidden";
+            document.getElementById("navLeftContainer").style.height = "calc(100% - 20px)";
+            document.getElementById("navLeftTabsContent").style.display = "flex";
+            document.getElementById("navLeftCountriesContainer").style.position = "absolute";
+
+            countriesExpanded = true;
+        }else{
+
+            document.getElementById("navLeftCountriesArrowContainer").children[0].style.rotate = "0deg";
+            document.getElementById("navLeftCountriesArrowContainer").children[0].style.marginTop = "0";
+            document.getElementById("navLeftTabs").style.visibility = "hidden";
+            document.getElementById("navLeftCountriesContainer").style.visibility = "visible";
+            document.getElementById("navLeftTabsContent").style.display = "none";
+            document.getElementById("navLeftCountriesContainer").style.position = "static";
+            document.getElementById("navLeftContainer").style.height = "200px";
+
+            countriesExpanded = false;
+        }
+    }
+
+    function compare( a, b ) {
+        if ( a["name"] < b["name"] ){
+            return -1;
+        }
+        if ( a["name"] > b["name"] ){
+            return 1;
+        }
+        return 0;
+    }
+
+    function showCountries() {
+        document.getElementById("countriesTab").style.position = "static";
+        document.getElementById("countriesTab").style.display = "flex";
+        document.getElementById("countriesTabButton").className = "nav-left-tab-active";
+
+        document.getElementById("specialtyServersTab").style.position = "absolute";
+        document.getElementById("specialtyServersTab").style.display = "none";
+        document.getElementById("specialtyServersTabButton").className = "nav-left-tab-non-active";
+    }
+
+    function showSpecialtyServers() {
+        document.getElementById("countriesTab").style.position = "absolute";
+        document.getElementById("countriesTab").style.display = "none";
+        document.getElementById("countriesTabButton").className = "nav-left-tab-non-active";
+
+        document.getElementById("specialtyServersTab").style.position = "static";
+        document.getElementById("specialtyServersTab").style.display = "flex";
+        document.getElementById("specialtyServersTabButton").className = "nav-left-tab-active";
+    }
+
+    function makeRequest(url, on_ok, on_err) {
+        const xmlhttp = new XMLHttpRequest();
+        xmlhttp.open("GET", url, true);
+        xmlhttp.onload = () => {
+            if (xmlhttp.status === 200) {
+                on_ok(xmlhttp.responseText);
+            }else on_err(xmlhttp.responseText);
+        }
+        xmlhttp.send();
+    }
+
+    function connectSpecialty(group, options) {
+        connect(options.options[options.selectedIndex].value, "", group);
+    }
+
+    function quickConnect() {
+        connect(usersCountry, "", "");
+    }
+
+    function reconnect() {
+        if(!connected) return;
+
+        document.getElementById("server-name").textContent = "Reconnecting";
+        document.getElementById("disconnect-button").style.opacity = "0.1";
+        document.getElementById("reconnect-button").style.opacity = "0.1";
+        document.getElementById("navLeftConnectText").style.color = "#ff0000";
+        document.getElementById("server-spinner").style.display = "block";
+        document.getElementById("server-ip").textContent = "";
+        document.getElementById("navLeftConnectText").children[0].className = "nav-left-lock nav-left-not-connected";
+        document.getElementById("navLeftConnectText").children[1].textContent = "NOT CONNECTED";
+        document.getElementsByClassName("connected-country")[0].style.display = "none";
+
+        blockControls = true;
+
+        emit(IPCS.RECONNECT, null, (data) => {
+            parsed = JSON.parse(data);
+
+            for(const server of allServers) {
+                if(server["hostname"] === parsed["ConnectionInfo"][1]) {
+                    document.getElementById("server-ip").textContent = "IP: " + server["ips"][0]["ip"]["ip"];
+
+                    let country = server["locations"][0]["country"]["code"];
+
+                    makeRequest("flags/" + country + ".svg", () => {
+                        document.getElementsByClassName("connected-country")[0].src = "flags/" + country + ".svg";
+                    }, () => {
+                        document.getElementsByClassName("connected-country")[0].src = "https://hatscripts.github.io/circle-flags/flags/" + country["code"].toLowerCase() + ".svg";
+                    });
+                    break;
+                }
+            }
+
+            document.getElementById("server-name").textContent = parsed["ConnectionInfo"][0];
+            document.getElementById("navLeftConnectText").style.color = "rgb(18,168,24)";
+            document.getElementById("navLeftConnectText").children[0].className = "nav-left-lock nav-left-connected";
+            document.getElementById("navLeftConnectText").children[1].textContent = "CONNECTED";
+            document.getElementById("disconnect-button").style.opacity = "1.0";
+            document.getElementById("reconnect-button").style.opacity = "1.0";
+            document.getElementsByClassName("connected-country")[0].style.display = "block";
+        }, (data) => {
+            document.getElementById("server-name").textContent = "Connection failed";
+        }).then(() => {
+            document.getElementById("server-spinner").style.display = "none";
+            blockControls = false;
+        });
+    }
+
+    function connect(country, city, group) {
+        document.getElementById("server-name").textContent = "Connecting";
+        document.getElementById("disconnect-button").style.opacity = "0.1";
+        document.getElementById("reconnect-button").style.opacity = "0.1";
+        document.getElementById("navLeftConnectText").style.color = "#ff0000";
+        document.getElementById("server-spinner").style.display = "block";
+        document.getElementById("server-ip").textContent = "";
+        document.getElementById("navLeftConnectText").children[0].className = "nav-left-lock nav-left-not-connected";
+        document.getElementById("navLeftConnectText").children[1].textContent = "NOT CONNECTED";
+        document.getElementsByClassName("connected-country")[0].style.display = "none";
+
+        if(!city) city = "";
+        if(!group) group = "";
+        if(country !== "") country = String(country).toLowerCase();
+
+        blockControls = true;
+
+        emit(IPCS.CONNECT, [country, city, group], (data) => {
+            // { "ConnectionInfo": ["Germany #1089","de1089.nordvpn.com",""] }
+
+            parsed = JSON.parse(data);
+
+            for(const server of allServers) {
+                if(server["hostname"] === parsed["ConnectionInfo"][1]) {
+                    document.getElementById("server-ip").textContent = "IP: " + server["ips"][0]["ip"]["ip"];
+
+                    let country = server["locations"][0]["country"]["code"];
+
+                    makeRequest("flags/" + country + ".svg", () => {
+                        document.getElementsByClassName("connected-country")[0].src = "flags/" + country + ".svg";
+                    }, () => {
+                        document.getElementsByClassName("connected-country")[0].src = "https://hatscripts.github.io/circle-flags/flags/" + country["code"].toLowerCase() + ".svg";
+                    });
+                    break;
+                }
+            }
+
+            document.getElementsByClassName("connected-country")[0].style.display = "block";
+            document.getElementById("server-name").textContent = parsed["ConnectionInfo"][0];
+            document.getElementById("navLeftConnectText").style.color = "rgb(18,168,24)";
+            document.getElementById("navLeftConnectText").children[0].className = "nav-left-lock nav-left-connected";
+            document.getElementById("navLeftConnectText").children[1].textContent = "CONNECTED";
+            document.getElementById("disconnect-button").style.opacity = "1.0";
+            document.getElementById("reconnect-button").style.opacity = "1.0";
+
+            connected = true;
+        }, (data) => {
+            document.getElementById("server-name").textContent = "Connection failed";
+            showError("Connection failed: " + data);
+        }).then((result) => {
+            document.getElementById("server-spinner").style.display = "none";
+            blockControls = false;
+        });
+    }
+
+    function disconnect() {
+        if(!connected) return;
+
+        document.getElementById("server-spinner").style.display = "block";
+
+        blockControls = true;
+
+        emit(IPCS.DISCONNECT, null, (data) => {
+
+            if(data === "true") {
+                document.getElementById("server-name").textContent = "Connect to VPN";
+                document.getElementById("disconnect-button").style.opacity = "0.1";
+                document.getElementById("reconnect-button").style.opacity = "0.1";
+                document.getElementById("navLeftConnectText").style.color = "#ff0000";
+                document.getElementById("server-spinner").style.display = "block";
+                document.getElementById("server-ip").textContent = "";
+                document.getElementById("navLeftConnectText").children[0].className = "nav-left-lock nav-left-not-connected";
+                document.getElementById("navLeftConnectText").children[1].textContent = "NOT CONNECTED";
+                document.getElementsByClassName("connected-country")[0].style.display = "none";
+                connected = false;
+            }else {
+                showError("Disconnect failed");
+            }
+        }, (data) => {
+            showError("Disconnect failed: " + data);
+        }).then((result) => {
+            document.getElementById("server-spinner").style.display = "none";
+            blockControls = false;
+        });
+    }
+
+    function rectContains(rect, x, y) {
+        const isWithinX = x >= rect.x && x <= rect.x + rect.width;
+        const isWithinY = y >= rect.y && y <= rect.y + rect.height;
+        return isWithinX && isWithinY;
+    }
+
+    function initNavLeft() {
+        console.log("[Nav Left] Initializing...");
+
+        makeRequest("http://ip-api.com/json/", (data) => {
+            usersCountry = JSON.parse(data)["country"];
+        }, () => {});
+
+        emit(IPCS.GET_COUNTRIES, null, (data) => {
+            const json_data = JSON.parse(data);
+            let countriesRaw = {};
+
+            allServers = json_data;
+
+
+            for(const entry of json_data) {
+                let country = entry["locations"][0]["country"];
+                const city = country["city"];
+                country["specifications"] = entry["specifications"];
+                country["city"] = {};
+                country["city"][city["id"]] = city;
+                if(!country["groups"]) {
+                    country["groups"] = {};
+                }
+                if(!countriesRaw[country["id"]]) {
+                    for(const group of entry["groups"]) {
+                        country["groups"][group["id"]] = group;
+                    }
+                    countriesRaw[country["id"]] = country;
+                } else {
+                    if(!countriesRaw[country["id"]]["city"][city["id"]]) {
+                        countriesRaw[country["id"]]["city"][city["id"]] = city;
+                    }
+                    for(const group of entry["groups"]) {
+                        countriesRaw[country["id"]]["groups"][group["id"]] = group;
+                    }
+                }
+            }
+
+            let countries = [];
+
+            for(const country in countriesRaw) {
+                countries.push(countriesRaw[country]);
+            }
+
+            countries.sort(compare);
+
+            let container = document.getElementById("navLeftCountriesContainer");
+
+            for(const country of countries.slice(0, 6)) {
+                const element = document.createElement("img");
+                element.setAttribute("name", country["name"]);
+                element.alt = "img";
+
+                element.style.width = "30px";
+                element.style.height = "30px";
+
+                element.onclick = () => {
+                    connect(country["code"]);
+                };
+
+                let isVirtual = false;
+
+                for(const specification of country["specifications"]) {
+                    if(specification["identifier"] === "virtual_location") {
+                        isVirtual = true;
+                        break;
+                    }
+                }
+
+                element.setAttribute("virtual", String(isVirtual));
+
+                makeRequest("flags/" + country["code"] + ".svg", () => {
+                    element.src = "flags/" + country["code"] + ".svg";
+                }, () => {
+                    element.src = "https://hatscripts.github.io/circle-flags/flags/" + country["code"].toLowerCase() + ".svg";
+                });
+
+                container.appendChild(element)
+            }
+
+            container = document.getElementById("countriesTab");
+
+
+            for(const country of countries.slice(0, countries.length)) {
+                const element = document.createElement("div");
+                element.setAttribute("code", country["code"]);
+
+                element.style.height = "40px";
+
+                let isVirtual = false;
+
+                for(const specification of country["specifications"]) {
+                    if(specification["identifier"] === "virtual_location") {
+                        isVirtual = true;
+                        break;
+                    }
+                }
+
+                countries.push(country);
+
+                for(let group in country["groups"]) {
+                    group = country["groups"][group];
+                    const option = document.createElement("option");
+                    option.value = country["code"];
+                    option.innerText = country["name"];
+                    switch (group["identifier"]) {
+                        case "legacy_p2p": {
+                            document.getElementById("p2p").appendChild(option);
+                            break;
+                        }
+                        case "legacy_double_vpn": {
+                            document.getElementById("double-vpn").appendChild(option);
+                            break;
+                        }
+                        case "legacy_obfuscated_servers": {
+                            document.getElementById("obfuscated").appendChild(option);
+                            break;
+                        }
+                        case "legacy_onion_over_vpn": {
+                            document.getElementById("onionovervpn").appendChild(option);
+                        }
+                    }
+                }
+
+
+                element.setAttribute("virtual", String(isVirtual));
+
+                const image = document.createElement("img");
+                image.alt = "img";
+
+                const descriptionContainer = document.createElement("div");
+
+                const name = document.createElement("a");
+                name.textContent = country["name"];
+
+                const cities = document.createElement("a");
+                cities.style.fontSize = "14px";
+                let citiesNum = 0;
+
+                for(const i in country["city"]) {
+                    const city = country["city"][i];
+                    window.insertMarker(city["latitude"], city["longitude"], country["name"], city["name"], function(country, city) {
+                        connect(country, city, "");
+                    });
+                    citiesNum++;
+                }
+
+                const firstCity = country["city"][Object.keys(country["city"])[0]];
+
+                if(citiesNum > 1) {
+                    cities.textContent = citiesNum + " cities available";
+                }else if(isVirtual) {
+                    cities.textContent = firstCity["name"] + " - " + "Virtual";
+                }else {
+                    cities.textContent = firstCity["name"];
+                }
+
+                descriptionContainer.appendChild(name);
+                descriptionContainer.appendChild(cities);
+
+                element.appendChild(image);
+                element.appendChild(descriptionContainer);
+
+                const arrowContainer = document.createElement("div");
+                arrowContainer.style.flexDirection = "row";
+                arrowContainer.style.alignItems = "center";
+                arrowContainer.style.width = "30px";
+                arrowContainer.style.paddingLeft = "10px";
+                arrowContainer.style.display = "none";
+
+                if(name.textContent.length > 26) {
+                    arrowContainer.style.marginTop = "15px";
+                    arrowContainer.style.marginLeft = "-60px";
+                }
+
+                const arrow = document.createElement("div");
+                arrow.className = "arrow";
+                arrow.style.rotate = "45deg";
+
+                if(citiesNum > 1) {
+                    element.setAttribute("expanded", "false");
+
+                    element.onmouseover = () => {
+                        arrowContainer.style.display = "flex";
+
+                        if (element.getAttribute("expanded") === "true") {
+                            image.style.width = "37px";
+                            image.style.height = "37px";
+                            image.style.border = "3px solid rgb(68, 134, 255)";
+                        }
+                    };
+
+                    element.onmouseleave = () => {
+                        if (element.getAttribute("expanded") === "true") return;
+                        arrowContainer.style.display = "none";
+                    };
+
+                    arrowContainer.appendChild(arrow);
+
+                    element.appendChild(arrowContainer);
+
+                    const countryCities = document.createElement("div");
+                    countryCities.style.display = "none";
+                    countryCities.style.flexDirection = "column";
+                    countryCities.style.flexWrap = "nowrap";
+                    countryCities.style.marginLeft = "10px";
+                    countryCities.className = "country-cities";
+                    countryCities.style.height = 51 * citiesNum + "px";
+                    countryCities.id = "countryCities" + element.getAttribute("code");
+
+                    arrowContainer.onclick = () => {
+                        if (element.getAttribute("expanded") === "true") {
+
+                            image.style.width = "";
+                            image.style.height = "";
+                            image.style.border = "";
+
+                            arrow.style.rotate = "45deg";
+
+                            countryCities.style.display = "none";
+
+                            element.setAttribute("expanded", "false");
+                        } else {
+                            for(const country of document.getElementById("countriesTab").children) {
+                                if(!country.hasAttribute("expanded")) continue;
+
+                                country.setAttribute("expanded", "false");
+
+                                const countryCities = document.getElementById("countryCities" + country.getAttribute("code"));
+
+                                country.children[0].style.width = "";
+                                country.children[0].style.height = "";
+                                country.children[0].style.border = "";
+
+                                country.children[2].children[0].style.rotate = "45deg";
+
+                                countryCities.style.display = "none";
+                            }
+
+                            image.style.width = "37px";
+                            image.style.height = "37px";
+                            image.style.border = "3px solid rgb(68, 134, 255)";
+
+
+                            arrow.style.rotate = "-134deg";
+
+                            countryCities.style.display = "flex";
+
+                            element.setAttribute("expanded", "true");
+                        }
+                    }
+
+                    for(const i in country["city"]) {
+                        const city = country["city"][i];
+
+                        const cityContainer = document.createElement("div");
+
+                        cityContainer.style.display = "flex";
+                        cityContainer.style.flexDirection = "row";
+                        cityContainer.style.gap = "10px";
+                        cityContainer.style.height = "55px";
+
+                        cityContainer.onclick = () => {
+                            connect(country["code"], city["name"]);
+                        };
+
+                        const cityImage = document.createElement("img");
+                        cityImage.className = "countries-city-image-" + country["code"];
+
+                        const cityName = document.createElement("a");
+                        cityName.textContent = city["name"];
+                        cityName.style.marginTop = "10px";
+
+                        cityContainer.appendChild(cityImage);
+                        cityContainer.appendChild(cityName);
+
+                        countryCities.appendChild(cityContainer);
+                    }
+
+                    element.onclick = (e) => {
+                        if(rectContains(arrowContainer.getBoundingClientRect(), e.x, e.y)) return;
+                        connect(country["code"]);
+                    };
+
+                    container.appendChild(element);
+                    container.appendChild(countryCities);
+                }else {
+                    element.onclick = () => {
+                        connect(country["code"]);
+                    };
+
+                    container.appendChild(element);
+                }
+
+                makeRequest("flags/" + country["code"] + ".svg", () => {
+                    image.src = "flags/" + country["code"] + ".svg";
+                    for(const cityImage of container.getElementsByClassName("countries-city-image-" + country["code"])) {
+                        cityImage.src = "flags/" + country["code"] + ".svg";
+                    }
+                }, () => {
+                    image.src = "https://hatscripts.github.io/circle-flags/flags/" + country["code"].toLowerCase() + ".svg";
+                });
+            }
+            emit(IPCS.GET_STATUS, null, (data) => {
+                parsed = JSON.parse(data)
+
+                if(parsed["uptime"] === -1) {
+                    return;
+                }
+
+                for(const server of allServers) {
+                    if(server["hostname"] === parsed["hostname"]) {
+                        document.getElementById("server-ip").textContent = "IP: " + server["ips"][0]["ip"]["ip"];
+                        let country = server["locations"][0]["country"]["code"];
+                        makeRequest("flags/" + country + ".svg", () => {
+                            document.getElementsByClassName("connected-country")[0].src = "flags/" + country + ".svg";
+                        }, () => {
+                            document.getElementsByClassName("connected-country")[0].src = "https://hatscripts.github.io/circle-flags/flags/" + country["code"].toLowerCase() + ".svg";
+                        });
+                        break;
+                    }
+                }
+
+                document.getElementsByClassName("connected-country")[0].style.display = "block";
+                document.getElementById("server-name").textContent = parsed["name"];
+                document.getElementById("navLeftConnectText").style.color = "rgb(18,168,24)";
+                document.getElementById("navLeftConnectText").children[0].className = "nav-left-lock nav-left-connected";
+                document.getElementById("navLeftConnectText").children[1].textContent = "CONNECTED";
+                document.getElementById("disconnect-button").style.opacity = "1.0";
+                document.getElementById("reconnect-button").style.opacity = "1.0";
+            }, (data) => {
+                showError("Error while fetching status: " + data)
+            })
+        }, (data) => {
+            showError("Couldn't fetch countries: " + data);
+        }).then(() => {
+            blockControls = false;
+        });
+
+        console.log("[Nav Left] Done");
+    }
+</script>

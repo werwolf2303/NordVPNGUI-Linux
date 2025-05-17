@@ -1,0 +1,17 @@
+<!DOCTYPE html>
+<html lang="en">
+<head>
+    <meta charset="UTF-8">
+    <link rel="stylesheet" href="index.css">
+    <link rel="stylesheet" href="https://unpkg.com/leaflet@1.9.4/dist/leaflet.css" integrity="sha256-p4NxAoJBhIIN+hmNHrzRCf9tD/miZyoHS5obTRR9BMY=" crossorigin="" />
+</head>
+<body>
+<div data-order="2" data-init="initNavLeft" data-element="side_nav"></div>
+<div data-order="1" style="position: absolute; top: 0" data-init="initMap" data-element="map"></div>
+<div data-order="0" id="error_bar_element" data-init="initErrorBar" data-element="error_bar"></div>
+<div data-order="-1" data-init="initLoginView" data-element="login_view" id="login_view"></div>
+<script src="mock.js"></script>
+<script src="index.js"></script>
+<script src="https://unpkg.com/leaflet@1.9.4/dist/leaflet.js" integrity="sha256-20nQCchB9co0qIjJZRGuk2/Z9VM+kNiyxNV1lvTlZBo=" crossorigin=""></script>
+</body>
+</html>

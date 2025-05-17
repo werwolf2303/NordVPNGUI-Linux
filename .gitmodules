@@ -1,0 +1,3 @@
+[submodule "energy"]
+	path = energy
+	url = https://github.com/energye/energy.git
